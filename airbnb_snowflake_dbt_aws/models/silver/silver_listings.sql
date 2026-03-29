@@ -16,7 +16,7 @@ select
     PRICE_PER_NIGHT,
     {{ tag('PRICE_PER_NIGHT') }} as PRICE_PER_NIGHT_TAG,
     CREATED_AT,
-from {{ source('staging', 'listings') }}
+from {{ ref('bronze_listings') }}
 {% if is_incremental() %}
     where CREATED_AT > (select COALESCE(max(CREATED_AT), '1970-01-01') from {{ this }})
 {% endif %}
